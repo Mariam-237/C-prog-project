@@ -1,9 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+int Students_id [50];
+float Student_grades_num [50];
+char Student_grades_letter [50];
+
+void add_student(){
+}
+
+void edit_student(){
+}
+
+void display_info(){
+}
+
+void avg_grade (){
+}
+
+void search_ID(int Students_id[50]){
+    int id;
+    char choice;
+    bool found = 0;
+    printf("Enter the student's ID:\n");
+    scanf("%d", &id);
+
+    for (int i = 0; i < 50; i++){
+        if (id == Students_id[i]){
+            printf("Found !\n");
+            found = 1;
+            printf("Student ID: %d\n", Students_id[i]);
+            printf("Student number grade: %d\n", Student_grades_num[i]);
+            printf("Student letter grade: %d\n", Student_grades_letter[i]);
+            break;
+        }
+    }
+
+    if (found == 0){
+        printf("not found, want to search for a different ID? (Y/N)\n");
+        scanf(" %c", &choice); // the space before %c makes scanf ignore whitespace & wait for Y/N
+
+        if (choice == 'Y' || choice == 'y'){
+            search_ID(Students_id);
+        } else if(choice == 'N' || choice == 'n'){
+            start_menu();
+        }
+    }
+
+    start_menu();
+}
+
+
+void start_menu(){
+    int option;
+    printf("Pick one of the options:\n");
+    printf("1) Add new student info\n2) Edit a student's info\n3) Display all saved info\n");
+    printf("4) Average grade of class\n5) Search student by ID\n6) Exit\n");
+    scanf("%d", &option);
+
+    switch (option){
+        case 1:
+            add_student();
+            break;
+        case 2:
+            edit_student();
+            break;
+        case 3:
+            display_info();
+            break;
+        case 4:
+            avg_grade();
+            break;
+        case 5:
+            search_ID(Students_id);
+            break;
+        case 6:
+            exit(0);
+        default:
+            printf("invalid choice, re-enter your option:\n");
+            scanf("%d", &option);
+    }
+}
+
 
 int main()
 {
-    printf("Hello world!\n");
-    printf("Hi\n");
+    start_menu();
     return 0;
 }
