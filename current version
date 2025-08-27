@@ -1,0 +1,291 @@
+#include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#define Max_Students 50
+
+int Students_id [Max_Students];
+float Student_grades_num [Max_Students];
+char Student_grades_letter [Max_Students];
+int num_Students = 0;
+int choice;
+
+int Duplication_check (int newids) {
+	for (int i=0; i< num_Students; i++) {
+		if(Students_id[i] == newids) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void add_students() {
+    int id, test;
+    float grade;
+    printf("\nPlease enter number of students: ");
+    scanf("%d", &test);
+
+    while (test < 1 || test > Max_Students) {
+        printf("The number of students must be between 1 and %d\n", Max_Students);
+        scanf("%d", &test);
+    }
+
+    for (int i = 0; i < test ; i++) {
+        printf("Enter ID for student %d: ", i+1);
+        scanf("%d", &id);
+        while (Duplication_check(id) == 1) {
+            printf("The ID is already registered, enter a new ID: ");
+            scanf("%d", &id);
+        }
+        Students_id[num_Students] = id;
+        printf("Enter grade for student %d: ", i+1);
+        scanf("%f", &grade);
+        while (grade < 0.0 || grade > 100.0) {
+            printf("Grades must be between 0 and 100. Enter again: ");
+            scanf("%f", &grade);
+        }
+        Student_grades_num[num_Students] = grade;
+        num_Students++;
+    }
+    start_menu();
+}
+
+void edit_student(){ // not done yet
+}
+
+void display_student_records(){
+    for(int i=0;i< num_Students ;i++){
+        printf("\nstudent id : %d, student grade: %0.1f\n",Students_id[i] ,Student_grades_num[i]);
+        if(Student_grades_num[i] >= 60){
+                printf("Pass\n");
+        }
+        else {
+            printf("Fail\n");
+        }
+        if (Student_grades_num[i] >= 90 && Student_grades_num[i] <= 100) {
+            Student_grades_letter [i] = 'A';
+            printf("%c\n", Student_grades_letter [i]);
+        } else if (Student_grades_num[i] >= 80) {
+            Student_grades_letter [i] = 'B';
+            printf("%c\n", Student_grades_letter [i]);
+        } else if (Student_grades_num[i] >= 70) {
+            Student_grades_letter [i] = 'C';
+            printf("%c\n", Student_grades_letter [i]);
+        } else if (Student_grades_num[i] >= 60) {
+            Student_grades_letter [i] = 'D';
+            printf("%c\n", Student_grades_letter [i]);
+        } else {
+            Student_grades_letter [i] = 'F';
+            printf("%c\n", Student_grades_letter [i]);
+        }
+    }
+
+    start_menu();
+}
+
+void avg_grade (){ // not done yet
+}
+
+void search_ID(){
+    int id;
+    char choice;
+    bool found = 0;
+    printf("\nEnter the student's ID:\n");
+    scanf("%d", &id);
+
+    for (int i = 0; i < Max_Students; i++){
+        if (id == Students_id[i]){
+            printf("\nFound !\n");
+            found = 1;
+            printf("Student ID: %d\n", Students_id[i]);
+            printf("Student number grade: %0.1f\n", Student_grades_num[i]);
+            printf("Student letter grade: %c\n", Student_grades_letter[i]);
+            break;
+        }
+    }
+
+    if (found == 0){
+        printf("not found, want to search for a different ID? (Y/N)\n");
+        scanf(" %c", &choice); // the space before %c makes scanf ignore whitespace & wait for Y/N
+
+        if (choice == 'Y' || choice == 'y'){
+            search_ID(Students_id, Student_grades_num, Student_grades_letter);
+        } else if(choice == 'N' || choice == 'n'){
+            start_menu();
+        }
+    }
+
+    start_menu();
+}
+
+void grade_search(){
+    float num = 0.0;
+    int count = 0, grade_array[Max_Students];
+    char option;
+
+    printf("\nEnter a number:\n");
+    scanf("%f", &num);
+    printf("do you want student id above, below or equal that grade?\n'>' = above\n'<' = below\n'=' = equal\n");
+    scanf(" %c", &option);
+
+    if (option == '>' || option == '<' || option == '='){
+            if (option == '>'){
+                for (int i = 0; i < num_Students; i++){
+                    if (Student_grades_num[i] > num){
+                        grade_array[count] = Students_id [i];
+                        count++;
+                    }
+                }
+                printf("Students with a grade higher than %0.1f:\n", num);
+                if (count == 0){
+                    printf("no one got a grade higher than %0.1f!", num);
+                } else {
+                    for (int i = 0; i < count; i++){
+                        printf("%d\n", grade_array[i]);
+                    }
+                }
+            } else if(option == '<'){
+                for (int i = 0; i < num_Students; i++){
+                    if (Student_grades_num[i] < num){
+                        grade_array[count] = Students_id [i];
+                        count++;
+                    }
+                }
+                printf("Students with a grade lower than %0.1f:\n", num);
+                if (count == 0){
+                    printf("no one got a grade lower than %0.1f!", num);
+                } else {
+                    for (int i = 0; i < count; i++){
+                        printf("%d\n", grade_array[i]);
+                    }
+                }
+            } else if(option == '='){
+                for (int i = 0; i < num_Students; i++){
+                    if (Student_grades_num[i] == num){
+                        grade_array[count] = Students_id [i];
+                        count++;
+                    }
+                }
+                printf("Students with a grade equal to %0.1f:\n", num);
+                if (count == 0){
+                    printf("no one got a grade equal to %0.1f!", num);
+                } else {
+                    for (int i = 0; i < count; i++){
+                        printf("%d\n", grade_array[i]);
+                    }
+                }
+            }
+    } else {
+        printf("invalid choice, re-enter your option:\n");
+        grade_search();
+    }
+
+    start_menu();
+}
+
+void overall_report (){
+    float max = 0.0, min = 100.0, pass_percent = 0.0, fail_percent = 0.0;
+    int count_A = 0, count_B = 0, count_C = 0, count_D = 0, count_F = 0;
+    int count_pass = 0, count_fail = 0, honourlist = 0;
+    int honourList_array[Max_Students];
+
+    for (int i = 0; i < num_Students; i++){
+        if (Student_grades_num [i] > max){
+            max = Student_grades_num [i];
+        }
+
+        if (Student_grades_num [i] < min){
+            min = Student_grades_num [i];
+        }
+
+        if (Student_grades_num[i] >= 90 && Student_grades_num[i] <= 100) {
+            count_A++;
+        } else if (Student_grades_num[i] >= 80) {
+            count_B++;
+        } else if (Student_grades_num[i] >= 70) {
+            count_C++;
+        } else if (Student_grades_num[i] >= 60) {
+            count_D++;
+        } else {
+            count_F++;
+        }
+
+        if(Student_grades_num[i] >= 60){
+                count_pass++;
+        }
+        else {
+            count_fail++;
+        }
+
+        pass_percent = ((float) count_pass / num_Students) * 100;
+        fail_percent = ((float) count_fail/ num_Students) * 100;
+
+        if (Student_grades_num[i] >= 90){
+            honourList_array[honourlist] = Students_id [i];
+            honourlist++;
+        }
+    }
+
+    printf("\nHighest Grade: %0.1f\n", max);
+    printf("Lowest Grade: %0.1f\n", min);
+    printf("Percent of pass: %0.1f\n", pass_percent);
+    printf("Percent of fail: %0.1f\n", fail_percent);
+    printf("Number of students that got an A (90 - 100): %d\n", count_A);
+    printf("Number of students that got an B (>= 80): %d\n", count_B);
+    printf("Number of students that got an C (>= 70): %d\n", count_C);
+    printf("Number of students that got an D (>= 60): %d\n", count_D);
+    printf("Number of students that got an F (0 - 59): %d\n\n", count_F);
+
+    printf("Honour list (students with grades >= 90):\n");
+    if (honourlist == 0){
+        printf("no one got a grade higher than 90!");
+    } else {
+        for (int i = 0; i < honourlist; i++){
+            printf("%d\n", honourList_array[i]);
+        }
+    }
+
+    start_menu();
+}
+
+void start_menu(){
+    int option;
+    printf("\nPick one of the options:\n");
+    printf("1) Add new student info\n2) Edit a student's info\n3) Display all saved info\n");
+    printf("4) Average grade of class\n5) Search student by ID\n6) Grade search\n7) overall report\n8) Exit\n\n");
+    scanf("%d", &option);
+
+    switch (option){
+    case 1:
+        add_students();
+        break;
+    case 2:
+        edit_student();
+        break;
+    case 3:
+        display_student_records();
+        break;
+    case 4:
+        avg_grade();
+        break;
+    case 5:
+        search_ID();
+        break;
+    case 6:
+        grade_search();
+        break;
+    case 7:
+        overall_report();
+        break;
+    case 8:
+        exit(0);
+    default:
+        printf("invalid choice, re-enter your option:\n");
+        start_menu();
+    }
+}
+
+int main(){
+    start_menu();
+    return 0;
+}
