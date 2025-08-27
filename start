@@ -1,37 +1,100 @@
 #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#define Max_Students 50
+int Students_id [Max_Students];
+float Student_grades_num [Max_Students];
+char Student_grades_letter [Max_Students];
+int num_Students;
+int choice;
 
-int Students_id [50];
-float Student_grades_num [50];
-char Student_grades_letter [50];
+int Duplication_check (int ids[],int count, int newids) {
+	for (int i=0; i< count; i++) {
+		if(ids[i] == newids) {
+			return 1;
+		}
+	}
+	return 0;
+}
 
-void add_student(){
+void add_students(int Students_id[], float Student_grades_num[], int *num_Students) {
+    int id;
+    float grade;
+    printf("Please enter number of students: ");
+    scanf("%d", num_Students);
+
+    while (*num_Students < 1 || *num_Students > Max_Students) {
+        printf("The number of students must be between 1 and %d\n", Max_Students);
+        scanf("%d", num_Students);
+    }
+
+    for (int i = 0; i < *num_Students; i++) {
+        printf("Enter ID for student %d: ", i+1);
+        scanf("%d", &id);
+        while (Duplication_check(Students_id, i, id) == 1) {
+            printf("The ID is already registered, enter a new ID: ");
+            scanf("%d", &id);
+        }
+        Students_id[i] = id;
+        printf("Enter grade for student %d: ", i+1);
+        scanf("%f", &grade);
+        while (grade < 0.0 || grade > 100.0) {
+            printf("Grades must be between 0 and 100. Enter again: ");
+            scanf("%f", &grade);
+        }
+        Student_grades_num[i] = grade;
+    }
+
+    start_menu();
 }
 
 void edit_student(){
 }
 
-void display_info(){
+void display_student_records(int Students_id[],float Student_grades_num[],int num_Students){
+    for(int i=0;i< num_Students ;i++){
+        printf("\nstudent id : %d, student grade: %0.1f\n",Students_id[i] ,Student_grades_num[i]);
+        if(Students_id[i] >= 60) printf("Pass\n");
+        else printf("Fail\n");
+        if (Student_grades_num[i] >= 90 && Student_grades_num[i] <= 100) {
+            Student_grades_letter [i] = 'A';
+            printf("%c\n", Student_grades_letter [i]);
+        } else if (Student_grades_num[i] >= 80) {
+            Student_grades_letter [i] = 'B';
+            printf("%c\n", Student_grades_letter [i]);
+        } else if (Student_grades_num[i] >= 70) {
+            Student_grades_letter [i] = 'C';
+            printf("%c\n", Student_grades_letter [i]);
+        } else if (Student_grades_num[i] >= 60) {
+            Student_grades_letter [i] = 'D';
+            printf("%c\n", Student_grades_letter [i]);
+        } else {
+            Student_grades_letter [i] = 'F';
+            printf("%c\n", Student_grades_letter [i]);;
+        }
+    }
+
+    start_menu();
 }
 
 void avg_grade (){
 }
 
-void search_ID(int Students_id[50]){
+void search_ID(int Students_id[Max_Students], float Student_grades_num [Max_Students], char Student_grades_letter [Max_Students]){
     int id;
     char choice;
     bool found = 0;
-    printf("Enter the student's ID:\n");
+    printf("\nEnter the student's ID:\n");
     scanf("%d", &id);
 
-    for (int i = 0; i < 50; i++){
+    for (int i = 0; i < Max_Students; i++){
         if (id == Students_id[i]){
-            printf("Found !\n");
+            printf("\nFound !\n");
             found = 1;
             printf("Student ID: %d\n", Students_id[i]);
-            printf("Student number grade: %d\n", Student_grades_num[i]);
-            printf("Student letter grade: %d\n", Student_grades_letter[i]);
+            printf("Student number grade: %0.1f\n", Student_grades_num[i]);
+            printf("Student letter grade: %c\n", Student_grades_letter[i]);
             break;
         }
     }
@@ -41,7 +104,7 @@ void search_ID(int Students_id[50]){
         scanf(" %c", &choice); // the space before %c makes scanf ignore whitespace & wait for Y/N
 
         if (choice == 'Y' || choice == 'y'){
-            search_ID(Students_id);
+            search_ID(Students_id, Student_grades_num, Student_grades_letter);
         } else if(choice == 'N' || choice == 'n'){
             start_menu();
         }
@@ -50,41 +113,38 @@ void search_ID(int Students_id[50]){
     start_menu();
 }
 
-
 void start_menu(){
     int option;
-    printf("Pick one of the options:\n");
+    printf("\nPick one of the options:\n");
     printf("1) Add new student info\n2) Edit a student's info\n3) Display all saved info\n");
-    printf("4) Average grade of class\n5) Search student by ID\n6) Exit\n");
+    printf("4) Average grade of class\n5) Search student by ID\n6) Exit\n\n");
     scanf("%d", &option);
 
     switch (option){
-        case 1:
-            add_student();
-            break;
-        case 2:
-            edit_student();
-            break;
-        case 3:
-            display_info();
-            break;
-        case 4:
-            avg_grade();
-            break;
-        case 5:
-            search_ID(Students_id);
-            break;
-        case 6:
-            exit(0);
-        default:
-            printf("invalid choice, re-enter your option:\n");
-            scanf("%d", &option);
+    case 1:
+        add_students(Students_id, Student_grades_num, &num_Students);
+        break;
+    case 2:
+        edit_student();
+        break;
+    case 3:
+        display_student_records(Students_id, Student_grades_num, num_Students);
+        break;
+    case 4:
+        avg_grade();
+        break;
+    case 5:
+        search_ID(Students_id, Student_grades_num, Student_grades_letter);
+        break;
+    case 6:
+        exit(0);
+    default:
+        printf("invalid choice, re-enter your option:\n");
+        scanf("%d", &option);
     }
 }
 
-
-int main()
-{
+int main(){
     start_menu();
     return 0;
 }
