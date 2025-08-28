@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #define Max_Students 50
@@ -50,7 +49,32 @@ void add_students() {
     start_menu();
 }
 
-void edit_student(){ // not done yet
+void edit_student(){
+    int current_id;
+    float current_grade;
+    scanf("%d",current_id);
+    scanf("%f",current_grade);
+    for (int i = 0; i <= num_Students ; i++) {
+      if (current_id == Students_id[i]) {
+        if (current_grade <=100.0 && current_grade>=0.0 ){
+            Student_grades_num[i]= current_grade ;
+            start_menu();
+        }
+        else{
+            printf("wrong grade ");
+
+        }
+      }
+
+    }
+    printf ("id not found do you want to enter a new id?(Y\N)\n");
+   char choice_id ;
+        if (choice_id == 'Y' || choice_id == 'y'){
+            edit_student();
+        } else if(choice_id == 'N' || choice_id == 'n'){
+            start_menu();
+        }
+    edit_student();
 }
 
 void display_student_records(){
@@ -82,7 +106,23 @@ void display_student_records(){
     start_menu();
 }
 
-void avg_grade (){ // not done yet
+void avg_grade(){
+    float average = 0.0; //clearing average
+    float sum = 0.0; //clearing sum
+    char letter_grade;
+    for (int i = 0; i < num_Students ; i++){
+        sum += Student_grades_num[i];
+    }
+    average = sum / num_Students;
+    if (average >= 90)letter_grade = 'A';
+    else if (average >= 80) letter_grade = 'B';
+    else if (average >= 70) letter_grade = 'C';
+    else if (average >= 60) letter_grade = 'D';
+    else letter_grade = 'F';
+
+    printf("\nyour average is: %.2f\n", average);
+    printf("the equivalent letter grade is: %c\n", letter_grade);
+    start_menu();
 }
 
 void search_ID(){
@@ -137,7 +177,7 @@ void grade_search(){
                 }
                 printf("Students with a grade higher than %0.1f:\n", num);
                 if (count == 0){
-                    printf("no one got a grade higher than %0.1f!", num);
+                    printf("no one got a grade higher than %0.1f!\n", num);
                 } else {
                     for (int i = 0; i < count; i++){
                         printf("%d\n", grade_array[i]);
@@ -152,7 +192,7 @@ void grade_search(){
                 }
                 printf("Students with a grade lower than %0.1f:\n", num);
                 if (count == 0){
-                    printf("no one got a grade lower than %0.1f!", num);
+                    printf("no one got a grade lower than %0.1f!\n", num);
                 } else {
                     for (int i = 0; i < count; i++){
                         printf("%d\n", grade_array[i]);
@@ -167,7 +207,7 @@ void grade_search(){
                 }
                 printf("Students with a grade equal to %0.1f:\n", num);
                 if (count == 0){
-                    printf("no one got a grade equal to %0.1f!", num);
+                    printf("no one got a grade equal to %0.1f!\n", num);
                 } else {
                     for (int i = 0; i < count; i++){
                         printf("%d\n", grade_array[i]);
