@@ -50,30 +50,37 @@ void add_students(){
 
 void edit_student(){
     int current_id;
-    float current_grade;
-    scanf("%d",current_id);
-    scanf("%f",current_grade);
-    for (int i = 0; i <= num_Students ; i++) {
+    float new_grade;
+    bool found = 0 ;
+
+    printf("Enter the id of the student you want to edit:\n");
+    scanf("%d",&current_id);
+
+    for (int i = 0; i < num_Students ; i++) {
       if (current_id == Students_id[i]) {
-        if (current_grade <=100.0 && current_grade>=0.0 ){
-            Student_grades_num[i]= current_grade ;
-            start_menu();
+            found = 1;
+            printf("Enter the new grade for student %d :\n",current_id);
+            scanf("%f",&new_grade);
+        while(new_grade < 0.0 || new_grade > 100.0){
+                printf("grades must be between 0 & 100, re-enter the grade:\n");
+                scanf("%f",&new_grade);
         }
-        else{
-            printf("wrong grade ");
-
+            Student_grades_num[i]= new_grade ;
+            printf("grade updated\n");
+            break;
         }
-      }
-
     }
+
+    if(!found){
+    char choice_id ;
     printf ("id not found do you want to enter a new id?(Y\N)\n");
-   char choice_id ;
+     scanf(" %c",&choice_id);
         if (choice_id == 'Y' || choice_id == 'y'){
-            edit_student();
-        } else if(choice_id == 'N' || choice_id == 'n'){
-            start_menu();
+            edit_student(); //try again
+             return ; // prevent recursive call so no going on after retry
         }
-    edit_student();
+    }
+   start_menu();
 }
 
 void display_student_records(){
