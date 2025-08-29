@@ -24,12 +24,12 @@ void add_students(){
     scanf("%d", &num);
 
     while (num < 1 || num > Max_Students) {
-        printf("The number of students must be between 1 and %d\n", Max_Students);
+        printf("\nThe number of students must be between 1 and %d\n", Max_Students);
         scanf("%d", &num);
     }
 
     for (int i = 0; i < num ; i++) {
-        printf("Enter ID for student %d: ", i+1);
+        printf("\nEnter ID for student %d: ", i+1);
         scanf("%d", &id);
         while (Duplication_check(id) == 1) {
             printf("The ID is already registered, enter a new ID: ");
@@ -39,7 +39,7 @@ void add_students(){
         printf("Enter grade for student %d: ", i+1);
         scanf("%f", &grade);
         while (grade < 0.0 || grade > 100.0) {
-            printf("Grades must be between 0 and 100. Enter again: ");
+            printf("\nGrades must be between 0 and 100. Enter again: ");
             scanf("%f", &grade);
         }
         Student_grades_num[num_Students] = grade;
@@ -53,27 +53,27 @@ void edit_student(){
     float new_grade;
     bool found = 0 ;
 
-    printf("Enter the id of the student you want to edit:\n");
+    printf("\nEnter the id of the student you want to edit:\n");
     scanf("%d",&current_id);
 
     for (int i = 0; i < num_Students ; i++) {
       if (current_id == Students_id[i]) {
             found = 1;
-            printf("Enter the new grade for student %d :\n",current_id);
+            printf("\nEnter the new grade for student %d :\n",current_id);
             scanf("%f",&new_grade);
         while(new_grade < 0.0 || new_grade > 100.0){
-                printf("grades must be between 0 & 100, re-enter the grade:\n");
+                printf("\ngrades must be between 0 & 100, re-enter the grade:\n");
                 scanf("%f",&new_grade);
         }
             Student_grades_num[i]= new_grade ;
-            printf("grade updated\n");
+            printf("\ngrade updated\n");
             break;
         }
     }
 
     if(!found){
     char choice_id ;
-    printf ("id not found do you want to enter a new id?(Y\N)\n");
+    printf ("\nid not found do you want to enter a new id?(Y\N)\n");
      scanf(" %c",&choice_id);
         if (choice_id == 'Y' || choice_id == 'y'){
             edit_student(); //try again
@@ -168,9 +168,9 @@ void grade_search(){
     int count = 0, grade_array[Max_Students]; // a new array to store the id's that fit the criteria set
     char option;
 
-    printf("\nEnter a number:\n");
+    printf("\nEnter a grade for the search (0-100):\n");
     scanf("%f", &num);
-    printf("do you want student id above, below or equal that grade?\n'>' = above\n'<' = below\n'=' = equal\n");
+    printf("do you want to display the student id above, below or equal that grade?\n'>' = above\n'<' = below\n'=' = equal\n");
     scanf(" %c", &option);
 
     if (option == '>' || option == '<' || option == '='){ // validation check
@@ -181,7 +181,7 @@ void grade_search(){
                         count++; // increment the counter
                     }
                 }
-                printf("Students with a grade higher than %0.1f:\n", num);
+                printf("\nStudents with a grade higher than %0.1f:\n", num);
                 if (count == 0){
                     printf("no one got a grade higher than %0.1f!\n", num);
                 } else {
@@ -196,7 +196,7 @@ void grade_search(){
                         count++; // increment
                     }
                 }
-                printf("Students with a grade lower than %0.1f:\n", num);
+                printf("\nStudents with a grade lower than %0.1f:\n", num);
                 if (count == 0){
                     printf("no one got a grade lower than %0.1f!\n", num);
                 } else {
@@ -211,7 +211,7 @@ void grade_search(){
                         count++; // increment
                     }
                 }
-                printf("Students with a grade equal to %0.1f:\n", num);
+                printf("\nStudents with a grade equal to %0.1f:\n", num);
                 if (count == 0){
                     printf("no one got a grade equal to %0.1f!\n", num);
                 } else {
@@ -221,7 +221,7 @@ void grade_search(){
                 }
             }
     } else {
-        printf("invalid choice, re-enter your option:\n");
+        printf("\ninvalid choice, re-enter your option:\n");
         grade_search(); // recursive call
     }
 
@@ -285,7 +285,7 @@ void overall_report (){
 
     printf("Honour list (students with grades >= 90):\n");
     if (honourlist == 0){
-        printf("no one got a grade higher than 90!");
+        printf("no one got a grade higher than 90!\n");
     } else {
         for (int i = 0; i < honourlist; i++){
             printf("%d\n", honourList_array[i]); // prints out all id in the array
@@ -325,6 +325,7 @@ void start_menu(){
         overall_report();
         break;
     case 8:
+        printf("\nThank you, Bye bye :)\n");
         exit(0);
     default:
         printf("invalid choice, re-enter your option:\n");
