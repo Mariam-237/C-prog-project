@@ -54,24 +54,24 @@ void edit_student(){
     bool found = 0 ;
 
     printf("\nEnter the id of the student you want to edit:\n");
-    scanf("%d",&current_id);
+    scanf("%d",&current_id); // reading the current id user wants to edit
 
-    for (int i = 0; i < num_Students ; i++) {
+    for (int i = 0; i < num_Students ; i++) { // looping to search for id in list of students
       if (current_id == Students_id[i]) {
-            found = 1;
+            found = 1; //if found the user prompted to enter new id
             printf("\nEnter the new grade for student %d :\n",current_id);
             scanf("%f",&new_grade);
         while(new_grade < 0.0 || new_grade > 100.0){
                 printf("\ngrades must be between 0 & 100, re-enter the grade:\n");
                 scanf("%f",&new_grade);
         }
-            Student_grades_num[i]= new_grade ;
-            printf("\ngrade updated\n");
+            Student_grades_num[i]= new_grade; // student record is updated
+            printf("\ngrade updated\n"); // success message is displayed
             break;
         }
     }
 
-    if(!found){
+    if(!found){ // If not found an error message is displayed saying the student does not exist
     char choice_id ;
     printf ("\nid not found do you want to enter a new id?(Y\N)\n");
      scanf(" %c",&choice_id);
@@ -112,14 +112,14 @@ void display_student_records(){
     start_menu();
 }
 
-void avg_grade(){
+void avg_grade(){ // calculating avg grade of all students in the class
     float average = 0.0; //clearing average
     float sum = 0.0; //clearing sum
     char letter_grade;
-    for (int i = 0; i < num_Students ; i++){
+    for (int i = 0; i < num_Students ; i++){ //loops through the array of students, adds up grades
         sum += Student_grades_num[i];
     }
-    average = sum / num_Students;
+    average = sum / num_Students; //divide the total number of students
     if (average >= 90)letter_grade = 'A';
     else if (average >= 80) letter_grade = 'B';
     else if (average >= 70) letter_grade = 'C';
