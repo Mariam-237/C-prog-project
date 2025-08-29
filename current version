@@ -8,7 +8,7 @@ float Student_grades_num [Max_Students];
 char Student_grades_letter [Max_Students];
 int num_Students = 0;
 
-bool Duplication_check (int newids) {
+bool Duplication_check (int newids){
 	for (int i=0; i< num_Students; i++) {
 		if(Students_id[i] == newids) {
 			return 1;
@@ -17,7 +17,7 @@ bool Duplication_check (int newids) {
 	return 0;
 }
 
-void add_students() {
+void add_students(){
     int id, num;
     float grade;
     printf("\nPlease enter number of students: ");
