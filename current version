@@ -155,7 +155,7 @@ void search_ID(){
     printf("\nEnter the student's ID:\n");
     scanf("%d", &id);
 
-    for (int i = 0; i < Max_Students; i++){
+    for (int i = 0; i < num_Students; i++){
         if (id == Students_id[i]){
             printf("\nFound !\n");
             found = 1; // found is switched from 0 to 1
