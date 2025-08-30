@@ -3,11 +3,14 @@
 #include <stdbool.h>
 #define Max_Students 50
 
+//arr declaration we used in the whole code
 int Students_id [Max_Students];
 float Student_grades_num [Max_Students];
 char Student_grades_letter [Max_Students];
-int num_Students = 0;
+int num_Students = 0; //num_Students global variable
 
+// this function check if the user entered the same id twice
+// it return 1 if their is a duplicate and 0 if their is not
 bool Duplication_check (int newids){
 	for (int i=0; i< num_Students; i++) {
 		if(Students_id[i] == newids) {
@@ -17,27 +20,38 @@ bool Duplication_check (int newids){
 	return 0;
 }
 
-void add_students(){
+void add_students(){ // add student function
+    // declarations
     int id, num;
     float grade;
     printf("\nPlease enter number of students: ");
     scanf("%d", &num);
 
+    /* this while loop will force the user to enter number of student he wants to record between 1 and
+    the max student that is defined up(50)*/
     while (num < 1 || num > Max_Students) {
         printf("\nThe number of students must be between 1 and %d\n", Max_Students);
         scanf("%d", &num);
     }
 
+    // after that this for loop will loop until the user enter all the ids of students that he specified earlier
     for (int i = 0; i < num ; i++) {
         printf("\nEnter ID for student %d: ", i+1);
         scanf("%d", &id);
+
+        /* then this while loop will check  by using the duplication function if their is a duplicated id it will
+        force the user to enter a non duplicate number indefinitely until he enter a non duplicate id */
         while (Duplication_check(id) == 1) {
             printf("The ID is already registered, enter a new ID: ");
             scanf("%d", &id);
         }
+
+        /* array Students_id stores ids of the students index = num students is used so the data that is going to
+        stored will get deleted if the user wanted add more students */
         Students_id[num_Students] = id;
         printf("Enter grade for student %d: ", i+1);
         scanf("%f", &grade);
+
         while (grade < 0.0 || grade > 100.0) {
             printf("\nGrades must be between 0 and 100. Enter again: ");
             scanf("%f", &grade);
@@ -83,6 +97,9 @@ void edit_student(){
    start_menu();
 }
 
+/*this function  loop tell all the student grades are recorded
+and check each grade of each student then it gives him  his grade
+in letter and number and also write to him he passed or failed with his id */
 void display_student_records(){
     for(int i=0;i< num_Students ;i++){
         printf("\nstudent id : %d, student grade: %0.1f\n",Students_id[i] ,Student_grades_num[i]);
